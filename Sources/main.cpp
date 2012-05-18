@@ -13,6 +13,7 @@
 #include <iomanip>
 
 #include "core.h"
+#include "interface_SDL.h"
 
 using namespace std;
 
@@ -80,6 +81,10 @@ int main()
 		}
 		cout << endl << right ;
 	}
+
+	// Test interface SDL
+	
+	lancerInterfaceSDL();
 	
 	return 0;
 }

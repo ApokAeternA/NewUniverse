@@ -16,7 +16,6 @@
 #include <string>
 #include <map>
 
-struct Size2D;
 class Environnement;
 class Entite;
 
