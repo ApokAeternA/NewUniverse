@@ -1,5 +1,5 @@
-SakuraTree-RPG : main.o core.o
-	g++ -o SakuraTree-RPG main.o core.o
+NewUniverse : main.o core.o
+	g++ -o NewUniverse main.o core.o
 
 main.o : main.cpp
 	g++ -c main.cpp

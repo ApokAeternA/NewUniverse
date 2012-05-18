@@ -10,7 +10,7 @@
  */
 
 #include <iostream>
-#include <iostream>
+#include <iomanip>
 
 #include "core.h"
 
@@ -18,32 +18,68 @@ using namespace std;
 
 int main()
 {
+	// Test des methodes
+	
+	cout << "TEST DES METHODES UNIQUEMENT" << endl << endl;
+
 	Environnement testEnv;
-	CoupleEntiers taille;
 
-	taille = testEnv.taille();
-	cout << "L'environnement \"testEnv\" a pour taille : (" << taille.x << ";" << taille.y << ")." << endl;
+	cout << "L'environnement \"testEnv\" a pour taille : (" << testEnv.tailleEnX() << ";" << testEnv.tailleEnY() << ")." << endl;
 	
-	taille.x = 5;
-	taille.y = 5;
-	Environnement testEnv2(taille);
+	Environnement testEnv2(5, 5);
 	
-	taille.x = 10;
-
-	taille = testEnv2.taille();
-	cout << "L'environnement \"testEnv2\" a pour taille : (" << taille.x << ";" << taille.y << ")." << endl;
+	cout << "L'environnement \"testEnv2\" a pour taille : (" << testEnv.tailleEnX() << ";" << testEnv.tailleEnY() << ")." << endl;
 	
 	Almanach almanachForet;
-	almanachForet[0] = "Vide";
+	almanachForet[1] = "Arbre";
+	almanachForet[2] = "Herbe";
 	
 	Entite testEntite;
 	cout << "L'entite \"testEntite\" a pour nom : " << testEntite.obtenirNom(almanachForet) << "." << endl;
 	
-	CoupleEntiers position;
-	position.x=0;
-	position.y=0;
-	testEnv2.insererEntite(position, testEntite);
-	cout << "Insertion de l'entite \"testEntite\" dans l'environnement \"testEnv2\" a la position (0,0)." << endl;
+	testEnv2.insererEntite(0, 0, testEntite);
+	cout << "Insertion de l'entite \"testEntite\" dans l'environnement \"testEnv2\" a la position (0;0)." << endl;
+	Entite testEntite2(1);
+	testEnv2.insererEntite(1, 0, testEntite2);
+	cout << "Insertion de l'entite \"testEntite2\" dans l'environnement \"testEnv2\" a la position (1;0)." << endl;
 
+	cout << "Affichage console de l'environnement \"testEnv2\" :" << endl;
+	for (int j = 0 ; j < testEnv2.tailleEnX() ; j++)
+	{
+		cout << " ";
+		for (int i = 0 ; i < testEnv2.tailleEnY() ; i++)
+		{
+			cout << setw(5) << setfill('.') << testEnv2.extraireEntite(i, j).obtenirNom(almanachForet) << " " ;
+		}
+		cout << endl;
+	}
+
+	// Test des surcharges d'operateurs
+	
+	cout << endl << "TEST DES SURCHAGES" << endl << endl;
+	
+	Environnement foret(8, 5);
+	cout << "Création de l'environnement foret..." << endl;
+	
+	Entite arbre(1);
+	Entite herbe(2);
+	cout << "Création des entités arbre et herbe..." << endl;
+
+	foret(0,0) = herbe;
+	foret(1,2) = arbre;
+	foret(1,1) = arbre;
+	cout << "Chargement des entités arbre et herbe dans l'environnement foret" << endl;
+	
+	cout << "Affichage console de l'environnement \"foret\" :" << endl;
+	for (int j = 0 ; j < foret.tailleEnX() ; j++)
+	{
+		cout << " ";
+		for (int i = 0 ; i < foret.tailleEnY() ; i++)
+		{
+			cout << setw(5) << setfill('.') << left << foret(i,j).obtenirNom(almanachForet) << " " ;
+		}
+		cout << endl << right ;
+	}
+	
 	return 0;
 }

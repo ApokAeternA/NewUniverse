@@ -29,17 +29,6 @@ class Entite;
 typedef std::map<int, std::string> Almanach;
 
 /**
- * \struct CoupleEntiers
- * \brief Couple d'entiers.
- *
- * Cette structure permet de stockés deux entiers representant, par exemple, la taille d'un environnement en hauteur et largeur, ou bien, les coordonées de la position d'une entité dans un environnement.
- */
-struct CoupleEntiers
-{
-	int x, y;
-};
-
-/**
  * \class Environnement
  *
  * \brief Classe représentant un environnement.
@@ -50,43 +39,94 @@ class Environnement
 {
 	public :
 		/**
-		 * \brief Constructeur par default de la classe Environnement.
+		 * \brief Constructeur par default.
 		 *
 		 * Ce constructeur créer un environnement de 1 sur 1 contenant l'entité "Vide" d'ID = 0.
 		 */
 		Environnement();
 		/**
-		 * \brief Constructeur de la classe Environnement.
+		 * \brief Constructeur.
 		 *
-		 * Ce constructeur créer un environnement de la taille spécifier en argument remplit avec l'entité "Vide" d'ID = 0.
+		 * Ce constructeur créer un environnement de "i" sur "j"  remplit avec l'entité "Vide" d'ID = 0.
 		 * 
-		 * \param taille : couple d'entiers spécifiant la taille de l'environnement à créer.
+		 * \param i : taille en largeur.
+		 * \param j : taille en hauteur.
 		 */
-		Environnement(CoupleEntiers taille);
+		Environnement(const unsigned int i, const unsigned int j);
 		/**
-		 * \brief Destructeur de la classe Environnement.
+		 * \brief Constructeur de copie.
+		 *
+		 * Ce constructeur créer une copie d'un environnement.
+		 * 
+		 * \param envCopier : environnement copier.
+		 */
+		Environnement(const Environnement & envCopier);
+		/**
+		 * \brief Destructeur.
 		 */
 		~Environnement();
 		
 		/**
-		 * \brief Taille de l'environnement.
+		 * \brief Taille en X de l'environnement.
 		 *
-		 * Donne la taille de l'environnement
+		 * Donne la taille en X de l'environnement.
+		 *
+		 * \return La taille de l'environnement en X.
 		 */
-		CoupleEntiers taille();
+		unsigned int tailleEnX();
 		/**
-		 * \brief Insertion d'une entite.
+		 * \brief Taille en Y de l'environnement.
 		 *
-		 * Insert une entité dans l'environnement à la position donnés par le couple d'entiers pos.
+		 * Donne la taille en Y de l'environnement.
 		 *
-		 * \param pos : couple d'entier donnant la position où inserer l'entité.
+		 * \return La taille de l'environnement en Y.
+		 */
+		unsigned int tailleEnY();
+		/**
+		 * \brief Insertion d'une entité.
+		 *
+		 * Insert une entité dans l'environnement à la position (i, j).
+		 *
+		 * \param i : entier donnant la position en X où inserer l'entité.
+		 * \param j : entier donnant la position en Y où inserer l'entité.
 		 * \param entite : entité à inserer.
 		 */
-		void insererEntite(CoupleEntiers pos, Entite entite);
+		void insererEntite(const unsigned int i, const unsigned j, Entite entite);
+		/**
+		 * \brief Extraction d'une entité.
+		 *
+		 * Extrait une entité de l'environnement situé à la position (i, j).
+		 *
+		 * \param i : entier donnant la position en X où extraire l'entité.
+		 * \param j : entier donnant la position en Y où extraire l'entité.
+		 * \return L'entité situé en (i, j)
+		 */
+		Entite extraireEntite(const unsigned int i, const unsigned int j);
+
+		/**
+		 * \brief Opérateur d'affectation.
+		 *
+		 * Cette surchage permet d'utiliser la classe Environnement avec l'operateur d'affectation.
+		 * 
+		 * \param envCopier : environnement affecter.
+		 * \return la copie de l'entité donner en entrée
+		 */
+		Environnement& operator=(const Environnement & envCopier);
+		/**
+		 * \brief Opérateur fonctionnel.
+		 *
+		 * Cette surchage permet d'utiliser la classe Environnement comme un tableau à 2 entrées, en se servant de l'ecriture "environnement(i,j)" pour atteindre une entité situé en (i, j).
+		 * 
+		 * \param i : position sur l'axe X de l'entité à atteindre.
+		 * \param j : position sur l'axe Y de l'entité à atteindre.
+		 * \return Une reference sur l'entité situé en (i, j).
+		 */
+		Entite& operator()(const unsigned int i, const unsigned int j);
 	
 	private :
-		std::vector<std::vector<Entite> > m_map; /**< Tableau de stokage des entités présente dans l'environnement */
+		std::vector<std::vector<Entite> > m_map; // Tableau de stokage des entités présente dans l'environnement
 };
+
 
 /**
  * \class Entite
@@ -105,13 +145,21 @@ class Entite
 		 */
 		Entite();
 		/**
+		 * \brief Constructeur.
+		 *
+		 * Construit une entité avec l'ID spécifier en argument.
+		 *
+		 * \param ID : ID de l'entité crée.
+		 */
+		Entite(unsigned int ID);
+		/**
 		 * \brief Constructeur de copie de la classe Entite.
 		 *
 		 * Construit une copie de l'entité passé en argument.
 		 *
 		 * \param entiteCopier : entité à copier.
 		 */
-		Entite(Entite const& entiteCopier);
+		Entite(const Entite & entiteCopier);
 		/**
 		 * \brief Destructeur de la classe Entite.
 		 */
@@ -126,9 +174,10 @@ class Entite
 		 * \return le nom de l'entité.
 		 */
 		std::string obtenirNom(Almanach & envAlmanach);
-	
+		
+		Entite& operator=(const Entite & entiteCopier); 
 	private :
-		int m_ID; /**< ID de l'entité */
+		unsigned int m_ID;
 };
 
 #endif

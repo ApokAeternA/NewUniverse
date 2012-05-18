@@ -13,52 +13,105 @@
 
 using namespace std;
 
-/* Methode de la classe "Environnement" */
+/* Implémentation de la classe "Environnement" */
+
+/* Constructeurs : */
 
 Environnement::Environnement() : m_map(1, vector<Entite>(1, Entite()))
 {
 }
 
-Environnement::Environnement(CoupleEntiers taille) : m_map(taille.x, vector<Entite>(taille.y, Entite()))
+Environnement::Environnement(const unsigned int i, const unsigned int j) : m_map(i, vector<Entite>(j, Entite()))
 {
 }
+
+Environnement::Environnement(const Environnement & envCopier) : m_map(envCopier.m_map)
+{
+}
+
+/* Destructeur : */
 
 Environnement::~Environnement()
 {
 }
 
-CoupleEntiers Environnement::taille()
+/* Methodes : */
+
+unsigned int Environnement::tailleEnX()
 {
-	CoupleEntiers tailleEnvironnement;
-
-	tailleEnvironnement.x = m_map[0].size();
-	tailleEnvironnement.y = m_map.size();
-
-	return tailleEnvironnement;
+	return m_map[0].size();
 }
 
-void Environnement::insererEntite(CoupleEntiers pos, Entite entite)
+unsigned int Environnement::tailleEnY()
 {
-	m_map[pos.x][pos.y] = entite;
+	return m_map.size();
 }
 
-/* Methodes de la classe "Entite" */
+void Environnement::insererEntite(const unsigned int i, const unsigned j, Entite entite)
+{
+	m_map[i][j] = entite;
+}
+
+Entite Environnement::extraireEntite(const unsigned int i, const unsigned int j)
+{
+	return m_map[i][j];
+}
+
+
+/* Surcharges d'operateurs : */
+
+Environnement& Environnement::operator=(const Environnement & envCopier)
+{
+	if(this != &envCopier)
+	{
+		m_map = envCopier.m_map;
+	}
+
+	return *this;
+}
+
+Entite& Environnement::operator()(const unsigned int i, const unsigned int j)
+{
+	return m_map[i][j];
+}
+
+/* Implemantation de la classe "Entite" */
+
+/* Constructeurs : */
 
 Entite::Entite() : m_ID(0)
 {
 }
 
+Entite::Entite(unsigned int ID) : m_ID(ID)
+{
+}
+
+Entite::Entite(const Entite & entiteCopier) : m_ID(entiteCopier.m_ID)
+{
+}
+
+/* Destructeur : */
+
 Entite::~Entite()
 {
 }
 
-Entite::Entite(Entite const& entiteCopier) : m_ID(entiteCopier.m_ID)
-{
-}
-
+/* Methodes : */
 
 string Entite::obtenirNom(Almanach & envAlmanach)
 {
 	return envAlmanach[m_ID];
 }
 
+/* Surchages d'operateurs : */
+
+Entite& Entite::operator=(const Entite & entiteCopier)
+{
+	if(this != &entiteCopier)
+	{
+		m_ID = entiteCopier.m_ID;
+	}
+
+	return *this;
+}
