@@ -15,6 +15,8 @@
 #include <fstream>
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 
 #define LARGEUR_FENETRE 640
 #define HAUTEUR_FENETRE 480

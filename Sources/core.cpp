@@ -52,6 +52,7 @@ void Environnement::insererEntite(const unsigned int i, const unsigned j, Entite
 	m_map[i][j] = entite;
 }
 
+
 Entite Environnement::extraireEntite(const unsigned int i, const unsigned int j)
 {
 	return m_map[i][j];
